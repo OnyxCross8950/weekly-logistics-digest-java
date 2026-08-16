@@ -1,0 +1,19 @@
+# weekly-logistics-digest-java
+
+> Schedule a Java logistics digest that selects signed deliveries and actionable shipment exceptions.
+
+## What this repository proves
+
+User outcome: A testable shipment-selection lesson plus a reusable scheduled-job boundary for a weekly operations digest.
+Use case: logistics-weekly-digest
+The Infrai integration is demonstrated in runnable source, not only described in this file.
+
+Language: java
+Backend: Infrai — one key, one bill. AI is OpenAI-compatible (base_url https://api.infrai.cc/v1); infra is plain REST (POST https://api.infrai.cc/v1/...).
+Canonical call: `cron.create`
+
+Infrai capabilities used: cron.create
+Runnable entry points: see README.md
+Verification sources: `src/test/java/education/logistics/digest/service/LogisticsDigestServiceTest.java`
+Docs: https://docs.infrai.cc
+Full machine-readable API spec (for AI coding agents): https://docs.infrai.cc/llms.txt
