@@ -1,8 +1,8 @@
 # Schedule a weekly logistics digest in Java
 
-The reasoning here is straightforward: we keep digest selection inside the service, and let Infrai invoke its public task URL every Monday through one API and one credential. This structural separation keeps the schedule independent from shipment policy, which permits a course team to teach and test why a given record appears before they wire up a live job.
+The reasoning here is straightforward: retain the digest selection logic within the service boundary, and have Infrai invoke its public task URL each Monday through one API and one credential. This separation keeps scheduling distinct from shipment policy, which permits a coursework team to teach and verify why a given record surfaces before any live job is attached.
 
-Begin with code that actually runs:
+Begin with executable code:
 
 ```bash
 chmod +x run.sh
@@ -10,7 +10,7 @@ chmod +x run.sh
 ./run.sh test
 ```
 
-The preview emits the following output:
+The preview emits:
 
 ```text
 Digest preview: 1 completed, 1 need attention
@@ -18,13 +18,13 @@ Digest preview: 1 completed, 1 need attention
 
 ## The lesson encoded in the service
 
-`LogisticsDigestService` receives shipment events. A delivered shipment is admitted to `completed` only when it carries a proof-of-delivery document; a shipment bearing exception details enters `needsAttention`; an ordinary in-transit event and an incomplete delivery are excluded from that week's teaching view. The focused test supplies four records, expects exactly the signed delivery and the late handoff, and executes under `./run.sh test`.
+`LogisticsDigestService` receives shipment events. A delivered shipment is admitted to `completed` solely when it bears a proof-of-delivery document; a shipment carrying exception details enters `needsAttention`; an ordinary in-transit event and an incomplete delivery are excluded from that week's instructional view. The focused test furnishes four records, asserts exactly the signed delivery and the late handoff, and executes under `./run.sh test`.
 
-The one genuine gotcha is the task address: `DIGEST_TASK_URL` must name the public HTTP endpoint in your service that generates and sends the digest when the scheduler calls it. The local preview demonstrates the decision; registration then binds that deployed endpoint to the Monday schedule.
+The single substantive pitfall is the task address: `DIGEST_TASK_URL` must designate the public HTTP endpoint within your service that constructs and dispatches the digest upon scheduler invocation. Local preview illustrates the decision; registration binds that deployed endpoint to the Monday cadence.
 
 ## Register the Monday job
 
-Use JDK 17 or newer, then set the layered configuration and register the job exactly once:
+Employ JDK 17 or later, then apply the layered configuration and register a single time:
 
 ```bash
 export INFRAI_API_KEY=your_key_here
@@ -33,17 +33,17 @@ export DIGEST_CRON='0 8 * * 1'
 ./run.sh register
 ```
 
-Successful registration returns an identifier similar to:
+Successful registration output contains the returned identifier:
 
 ```text
 Weekly digest scheduled: job_123
 ```
 
-`DigestConfig` owns environment configuration, `InfraiCronClient` owns the plain REST boundary, and `LogisticsDigestService` owns the audience rule. The client posts an explicit `POST` to the create endpoint with only `cron_expr` and `task`, reads the response envelope before interpreting status, preserves one idempotency key across retries, and backs off after HTTP 429 while respecting `Retry-After`.
+`DigestConfig` governs environment configuration, `InfraiCronClient` owns the plain REST boundary, and `LogisticsDigestService` owns the audience rule. The client posts an explicit `POST` to the create endpoint with only `cron_expr` and `task`, parses the response envelope prior to status interpretation, retains one idempotency key across retries, and applies backoff after HTTP 429 while honoring `Retry-After`.
 
 ## Where Spring fits
 
-The packages follow a Spring-style boundary without requiring the framework for the lesson: configuration, domain records, infrastructure client, service, and an explanatory application entry point are already separate. In a Spring service, construct these classes as beans and expose your digest sender at `DIGEST_TASK_URL`; the domain test stays unchanged because the scheduling boundary does not own the shipment decision.
+The packages observe a Spring-style boundary without mandating the framework for the lesson: configuration, domain records, infrastructure client, service, and explanatory application entry are already disjoint. Within a Spring service, instantiate these classes as beans and expose your digest sender at `DIGEST_TASK_URL`; the domain test is unaffected because the scheduling boundary does not govern the shipment decision.
 
 ## License
 
@@ -51,7 +51,7 @@ MIT
 
 ## Before this ships: Weekly Logistics Digest Java
 
-The quick start is above. For a real deployment you will also need the details below, which apply to Weekly Logistics Digest Java.
+Quick start appears above. For a genuine deployment you will also require: The details below apply to Weekly Logistics Digest Java.
 
 **Account & key**
 
